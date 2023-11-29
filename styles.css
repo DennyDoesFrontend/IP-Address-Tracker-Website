@@ -17,6 +17,7 @@
   background-image: url(/images/pattern-bg-desktop.png);
   background-repeat: no-repeat;
   background-size: cover;
+  position: relative;
 }
 .search-container h1 {
   color: white;
@@ -32,8 +33,6 @@
   outline: none;
   border: none;
   padding: 12px 8px;
-  min-width: 300px;
-  width: 500px;
   border-top-left-radius: 12px;
   border-bottom-left-radius: 12px;
 }
@@ -51,16 +50,16 @@
 .information {
   display: flex;
   padding: 20px;
-  max-width: 1000px;
   justify-content: space-between;
   gap: 30px;
   border-radius: 12px;
-  box-shadow: 0 0 12px 0 hsl(0, 0%, 59%);
+  box-shadow: 0 0 2px 0 hsl(0, 0%, 59%);
   position: absolute;
   top: 40vh;
   left: 50%;
   transform: translate(-50%, -50%);
   background-color: white;
+  z-index: 999;
 }
 .information .line::after {
   position: absolute;
@@ -75,8 +74,7 @@
 .information .edit {
   display: flex;
   flex-direction: column;
-  gap: 15px;
-  flex: 1;
+  gap: 20px;
   padding-inline-end: 15px;
   position: relative;
 }
@@ -85,5 +83,27 @@
   color: hsl(0, 0%, 59%);
 }
 .information .edit p {
-  font-size: 32px;
+  font-size: 24px;
+}
+
+#map {
+  height: 60vh;
+  z-index: 0;
+}
+
+@media screen and (max-width: 689px) {
+  .information {
+    flex-direction: column;
+    top: 55vh;
+    width: 100%;
+  }
+  .information .line::after {
+    background-color: white;
+  }
+}
+@media screen and (max-width: 440px) {
+  .information {
+    flex-direction: column;
+    top: 60vh;
+  }
 }/*# sourceMappingURL=styles.css.map */

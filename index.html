@@ -4,6 +4,12 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- displays site properly based on user's device -->
   <link rel="icon" type="image/png" sizes="32x32" href="./images/favicon-32x32.png">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+  integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+  crossorigin=""/>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+     integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+     crossorigin=""></script>
   <link rel="stylesheet" href="styles.css">
   <title>Frontend Mentor | IP Address Tracker</title>
 
@@ -12,31 +18,66 @@
   <div class="search-container">
     <h1>IP Address Tracker</h1>
     <div class="search">
-      <input type="text" placeholder="Search for any IP Address or domain">
-      <img src="/images/icon-arrow.svg" alt="search button image">
+      <input class="ip-class" type="text" placeholder="Search for any IP Address or domain">
+      <img class="button" src="/images/icon-arrow.svg" alt="search button image">
+    </div>
+    <div class="information">
+      <div class="edit line">
+        <h4>IP ADDRESS</h4>
+        <p class="ipAddress">192.212.174.101</p>
+      </div>
+      <div class="edit line">
+        <h4>LOCATION</h4>
+        <p class="locationArea">Brooklyn, NY 10001</p>
+      </div>
+      <div class="edit line">
+        <h4>TIMEZONE</h4>
+        <P class="zone">UTC -05:00</P>
+      </div>
+      <div class="edit">
+        <h4>ISP</h4>
+        <p class="isp">SpaceX Starlink</p>
+      </div>
     </div>
   </div>
-  <div class="information">
-    <div class="ip-address edit line">
-      <h4>IP ADDRESS</h4>
-      <p>192.212.174.101</p>
-    </div>
-    <div class="location edit line">
-      <h4>LOCATION</h4>
-      <p>Brooklyn, NY 10001</p>
-    </div>
-    <div class="timezone edit line">
-      <h4>TIMEZONE</h4>
-      <P>UTC -05:00</P>
-    </div>
-    <div class="isp edit">
-      <h4>ISP</h4>
-      <p>SpaceX Starlink</p>
-    </div>
-  </div>
-  <!-- <div class="attribution">
-    Challenge by <a href="https://www.frontendmentor.io?ref=challenge" target="_blank">Frontend Mentor</a>. 
-    Coded by <a href="#">Your Name Here</a>.
-  </div> -->
+  <div id="map"></div>
+  <script>
+
+    //api setup 
+    const locationArea = document.querySelector('.locationArea');
+    const ipArea = document.querySelector('.ipAddress');
+    const timeArea = document.querySelector('.zone');
+    const ispArea = document.querySelector('.isp')
+    const ipAddress = document.querySelector('.ip-class').value;
+    const button = document.querySelector('.button');
+    const apiKey = `http://ip-api.com/json/${ipAddress}`;
+    button.addEventListener('click', ()=> {
+      start();
+    })
+    function start() {
+    fetch(apiKey)
+    .then( (response)=> {
+      if(!response.ok) {
+        throw new Error ('There was an error receiving the API')
+      }
+      else {
+        return response.json();
+      }
+    })
+    .then( (data) => {
+      console.log(data);
+      locationArea.textContent = data.country;
+      ipArea.textContent = data.query;
+      timeArea.textContent = data.timezone;
+      ispArea.textContent = data.isp;
+      var map = L.map('map').setView([data.lat, data.lon], 13);
+      L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      maxZoom: 19,
+      attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+  }).addTo(map);
+      var marker = L.marker([data.lat, data.lon]).addTo(map);
+    })
+}
+  </script>
 </body>
 </html>
