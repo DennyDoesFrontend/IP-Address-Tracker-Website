@@ -43,41 +43,54 @@
   <div id="map"></div>
   <script>
 
-    //api setup 
-    const locationArea = document.querySelector('.locationArea');
+  const locationArea = document.querySelector('.locationArea');
     const ipArea = document.querySelector('.ipAddress');
     const timeArea = document.querySelector('.zone');
     const ispArea = document.querySelector('.isp')
-    const ipAddress = document.querySelector('.ip-class').value;
     const button = document.querySelector('.button');
-    const apiKey = `http://ip-api.com/json/${ipAddress}`;
-    button.addEventListener('click', ()=> {
-      start();
-    })
-    function start() {
-    fetch(apiKey)
-    .then( (response)=> {
-      if(!response.ok) {
-        throw new Error ('There was an error receiving the API')
-      }
-      else {
-        return response.json();
-      }
-    })
-    .then( (data) => {
-      console.log(data);
-      locationArea.textContent = data.country;
-      ipArea.textContent = data.query;
-      timeArea.textContent = data.timezone;
-      ispArea.textContent = data.isp;
-      var map = L.map('map').setView([data.lat, data.lon], 13);
-      L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    let longitude = -76.7307;
+    let latitude = 38.9429;
+
+    // Initialize the map outside the start function
+    let map = L.map('map').setView([latitude, longitude], 13);
+    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
       maxZoom: 19,
       attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-  }).addTo(map);
-      var marker = L.marker([data.lat, data.lon]).addTo(map);
-    })
-}
+    }).addTo(map);
+
+    let marker = L.marker([latitude, longitude]).addTo(map);
+
+    button.addEventListener('click', start);
+
+    function start() {
+      let ipAddress = document.querySelector('.ip-class').value;
+      let apiKey = `http://ip-api.com/json/${ipAddress}`;
+      
+      fetch(apiKey)
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error('There was an error receiving the data');
+          } else {
+            return response.json();
+          }
+        })
+        .then((data) => {
+          locationArea.textContent = data.country;
+          ipArea.textContent = data.query;
+          timeArea.textContent = data.timezone;
+          ispArea.textContent = data.isp;
+          longitude = data.lon;
+          latitude = data.lat;
+
+          // Update the marker position on the map
+          marker.setLatLng([latitude, longitude]);
+          // Pan the map to the new coordinates
+          map.panTo([latitude, longitude]);
+        })
+        .catch( (error) => {
+          alert(error)
+        })
+    }
   </script>
 </body>
 </html>
