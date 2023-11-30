@@ -32,7 +32,7 @@ Users should be able to:
 ### Links
 
 - Solution URL: [Add solution URL here](https://your-solution-url.com)
-- Live Site URL: [Add live site URL here](https://your-live-site-url.com)
+- Live Site URL: [Live Site](https://dennydoesfrontend.github.io/IP-Address-Tracker-Website/)
 
 ## My process
 
@@ -46,7 +46,7 @@ Built out the page using HTML and SASS/SCSS. i couldn't use ipify for this proje
 
 ### Useful resources
 
-- [iP-api API](http://ip-api.com) - This helped me get the coordinates for the domain and IP Addresses on the map without the need for any API Key.
+- [Abstract-API](https://www.abstractapi.com/) - This helped me get the coordinates for the IP Addresses on the map without the need for any API Key.
 
 
 ## Author
