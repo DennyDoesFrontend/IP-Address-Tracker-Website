@@ -64,7 +64,7 @@
 
     function start() {
       let ipAddress = document.querySelector('.ip-class').value;
-      let apiKey = `https://ip-api.com/json/${ipAddress}`;
+      let apiKey = `http://ip-api.com/json/${ipAddress}`;
       
       fetch(apiKey)
         .then((response) => {
