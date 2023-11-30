@@ -31,7 +31,7 @@
         <p class="locationArea">Brooklyn, NY 10001</p>
       </div>
       <div class="edit line">
-        <h4>TIMEZONE</h4>
+        <h4>TIME NOW</h4>
         <P class="zone">UTC -05:00</P>
       </div>
       <div class="edit">
@@ -42,7 +42,6 @@
   </div>
   <div id="map"></div>
   <script>
-
   const locationArea = document.querySelector('.locationArea');
     const ipArea = document.querySelector('.ipAddress');
     const timeArea = document.querySelector('.zone');
@@ -64,9 +63,8 @@
 
     function start() {
       let ipAddress = document.querySelector('.ip-class').value;
-      let apiKey = `http://ip-api.com/json/${ipAddress}`;
       
-      fetch(apiKey)
+      fetch(`https://ipgeolocation.abstractapi.com/v1/?api_key=04d09d1882084b4b88ade26122c33cd0&ip_address=${ipAddress}`)
         .then((response) => {
           if (!response.ok) {
             throw new Error('There was an error receiving the data');
@@ -75,12 +73,14 @@
           }
         })
         .then((data) => {
+          console.log(data);
+          data.ip_address = ipAddress;
           locationArea.textContent = data.country;
-          ipArea.textContent = data.query;
-          timeArea.textContent = data.timezone;
-          ispArea.textContent = data.isp;
-          longitude = data.lon;
-          latitude = data.lat;
+          ipArea.textContent = data.ip_address;
+          timeArea.textContent = data.timezone.current_time;
+          ispArea.textContent = data.connection.isp_name;
+          longitude = data.longitude;
+          latitude = data.latitude;
 
           // Update the marker position on the map
           marker.setLatLng([latitude, longitude]);
